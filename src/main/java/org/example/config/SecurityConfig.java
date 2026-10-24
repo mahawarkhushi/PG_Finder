@@ -53,13 +53,13 @@ public class SecurityConfig{
 
                 // URL Permissions
                 .authorizeHttpRequests(auth -> auth
-                        // RULE 1: Anyone can search and view Bangalore areas (100% Public)
+                        // RULE 1: Anyone can search and view areas (Public)
                         .requestMatchers(HttpMethod.GET, "/api/v1/areas/**").permitAll()
-
-                        // RULE 2: ONLY users with role "ADMIN" can create a new area!
+                        // RULE 2: Anyone can search and view PGs (Public) <-- ADDED HERE!
+                        .requestMatchers(HttpMethod.GET, "/api/v1/pgs/**").permitAll()
+                        // RULE 3: ONLY an authenticated Admin can create a new area!
                         .requestMatchers(HttpMethod.POST, "/api/v1/areas/**").hasRole("ADMIN")
-
-                        // Any other request must be authenticated
+                        // Any other request (like creating a PG) must be authenticated
                         .anyRequest().authenticated()
                 )
 
